@@ -47,12 +47,29 @@ public:
      * \brief Assign
      *
      *
-     *\param nr0 : number of cells per row in the visible maze,
-     * nc0: number of cells per column in the visible maze
-     * nbw : maximum  number of walls to build,
+     *\param nr0 : number of cells per row in the visible maze, nc0: number of cells per column in the visible maze, nbw : maximum  number of walls to build,
      * wp: likelihood to build a wall
      *\return  Maze object
     */
+    
+    int Maze::get_col(); /** \fn int get_col();
+    			  * \brief Returns nb of columns 
+    			  *
+    			  *
+    			  * \param None 
+    			  * \return nc 
+    			  */							
+    								
+
+    int Maze::get_row(); /** \fn int get_row();
+    			  * \brief Returns nb of rows
+    			  *
+    			  *
+    			  *
+    			  * \param None
+    			  * \return nr
+    			  */
+
     
     
     Cell
