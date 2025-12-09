@@ -1,10 +1,11 @@
-#include "solver.hpp"
+#include "solver_TB.hpp"
 #include <queue>
 #include <map>
 #include <set>
 #include <cmath>
 #include <stack>
 #include <algorithm>
+#include <catch2/catch_test_macros.hpp>
 
 Solver::Solver(const Maze& m) : maze(m), nr(m.rows()), nc(m.cols()) {}
 

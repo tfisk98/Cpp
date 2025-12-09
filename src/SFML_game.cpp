@@ -4,6 +4,8 @@
 #include <algorithm>
 #include "maze.hpp"
 #include "solver_TB.hpp"
+#include "cell.hpp"
+#include "monster.hpp"
 
 void display(const Maze& maze) {
     std::size_t nbrow = maze.rows();
@@ -11,6 +13,8 @@ void display(const Maze& maze) {
 
     const unsigned int windowWidth = 800;
     const unsigned int windowHeight = 800;
+    float cellWidth = cell.size; // * min(windowWidth/mazeWidth, 1)
+    float cellHeight = 1.0f;// * min(windowHeight/mazeHeight, 1) 
 
     sf::RenderWindow window(sf::VideoMode({windowWidth, windowHeight}), "Maze Game");
 
@@ -21,6 +25,11 @@ void display(const Maze& maze) {
 
     std::size_t playerR = 0;
     std::size_t playerC = 0;
+
+    std::size_t monsterR = 0;
+    std::size_t monsterC = 0;
+
+
 
     // --- Solution path ---
     bool showSolution = false;
@@ -45,13 +54,15 @@ void display(const Maze& maze) {
 
                 // --- Global Keys ---
                 if (code == sf::Keyboard::Key::Escape) {
-                    window.close();
+                    f::RectangleShape cadre({(windowWidth - 2 * marge) + wallEpaisseur, (windowHeight - 2 * marge) + wallEpaisseur});
+        cadre.setPosition({marge - wallEpaisseur / 2, marge - wallEpaisseur / 2});
+        cadre.setFillwindow.close();
                 }
                 else if (code == sf::Keyboard::Key::H) {
                     showSolution = !showSolution;
-                    if (showSolution) {
-                        solutionPath = solver.solveAStar();
-                    }
+                    //if (showSolution) {
+                    solutionPath = solver.solveAStar();
+                    //}
                 }
 
                 // --- Player Movement ---
@@ -71,6 +82,8 @@ void display(const Maze& maze) {
                     if (maze(playerR, playerC + 1).left == ' ') 
                         playerC++;
                 }
+
+		//maze(monsterR, monsterC)
             }
         }
 
@@ -162,6 +175,16 @@ void display(const Maze& maze) {
                             marge + playerR * cellHeight + cellHeight / 2.0f});
         player.setFillColor(sf::Color::Blue);
         window.draw(player);
+
+
+	//float radius = std::min(cellWidth, cellHeight) * 0.375f;
+        //sf::CircleShape monster(radius);
+        //player.setOrigin({radius, radius});
+        //player.setPosition({marge + monsterC * cellWidth + cellWidth / 2.0f,
+        //                    marge + monsterR * cellHeight + cellHeight / 2.0f});
+        //player.setFillColor(sf::Color::Red);
+        //window.draw(monster);
+
 
         window.display();
     }
