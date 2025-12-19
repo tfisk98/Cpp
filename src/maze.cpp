@@ -4,6 +4,7 @@
 
 #include "maze.h"
 
+
 int Maze::get_col(){
 	return nc;
 }
@@ -26,6 +27,7 @@ const Cell Maze::operator()(const std::size_t& j,
 {
     return data[j*nc+k];
 }
+
 
 std::tuple<std::vector<std::tuple<std::size_t, std::size_t> >, int> Maze::gen_path(std::tuple<size_t, size_t> origin){
     
