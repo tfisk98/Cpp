@@ -11,6 +11,8 @@ void display(const Maze& maze) {
 
     const unsigned int windowWidth = 800;
     const unsigned int windowHeight = 800;
+    //float cellWidth = 1.0f;
+    //float cellHeight = 1.0f;
 
     sf::RenderWindow window(sf::VideoMode({windowWidth, windowHeight}), "Maze Game");
 
@@ -49,9 +51,9 @@ void display(const Maze& maze) {
                 }
                 else if (code == sf::Keyboard::Key::H) {
                     showSolution = !showSolution;
-                    if (showSolution) {
-                        solutionPath = solver.solveAStar();
-                    }
+                    //if (showSolution) {
+                    solutionPath = solver.solveAStar();
+                    //}
                 }
 
                 // --- Player Movement ---
