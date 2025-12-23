@@ -11,4 +11,8 @@ TEST_CASE ("fonction heuristique (manhattan) fonctionne ", "[heuristic]") {
 	REQUIRE(s.heuristic_public(1,1) == 6);
 }
 
+TEST_CASE (){
+    
+}
+
 
