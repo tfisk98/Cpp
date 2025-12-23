@@ -5,13 +5,15 @@
 #include "maze.hpp"
 
 
+int main() {
+    std::size_t nbrow, nbcol;
+    std::cout << "Enter number of rows: ";
+    std::cin >> nbrow;
+    std::cout << "Enter number of columns: ";
+    std::cin >> nbcol;
 
-
-
-void display(const Maze& maze) {
-    // Get dimensions from the maze object
-    std::size_t nbrow = maze.rows();
-    std::size_t nbcol = maze.cols();
+    Maze maze(nbrow, nbcol);
+    maze.generate();
 
     const unsigned int windowWidth = 800;
     const unsigned int windowHeight = 800;
@@ -19,8 +21,8 @@ void display(const Maze& maze) {
     sf::RenderWindow window(sf::VideoMode({windowWidth, windowHeight}), "Maze Viewer");
 
     const float marge = 40.0f;
-    float cellWidth = (windowWidth - 2.0f * marge) / nbcol;
-    float cellHeight = (windowHeight - 2.0f * marge) / nbrow;
+    float cellWidth = (windowWidth - 2.0f*marge) / nbcol;
+    float cellHeight = (windowHeight - 2.0f*marge) / nbrow;
     
     float wallEpaisseur = std::min(3.0f, std::min(cellWidth, cellHeight) * 0.15f);
 
@@ -36,13 +38,12 @@ void display(const Maze& maze) {
 
         window.clear(sf::Color::White);
 
-        // Draw Frame
-        sf::RectangleShape cadre({(windowWidth - 2 * marge) + wallEpaisseur, (windowHeight - 2 * marge) + wallEpaisseur});
-        cadre.setPosition({marge - wallEpaisseur / 2, marge - wallEpaisseur / 2});
-        cadre.setFillColor(sf::Color::White);
-        cadre.setOutlineThickness(2.0f);
-        cadre.setOutlineColor(sf::Color::Black);
-        window.draw(cadre);
+	sf::RectangleShape cadre({(windowWidth - 2 * marge) + wallEpaisseur, (windowHeight - 2*marge) + wallEpaisseur});
+	cadre.setPosition({marge - wallEpaisseur / 2, marge - wallEpaisseur / 2});
+	cadre.setFillColor(sf::Color::White);
+	cadre.setOutlineThickness(2.0f);
+	cadre.setOutlineColor(sf::Color::Black);
+	window.draw(cadre);
 
         // Draw Green Entrance (Top-Left)
         sf::RectangleShape startRect({cellWidth, cellHeight});
@@ -56,11 +57,11 @@ void display(const Maze& maze) {
         endRect.setFillColor(sf::Color::Red);
         window.draw(endRect);
 
-        // Setup Wall Shapes
-        sf::RectangleShape vWall({wallEpaisseur, cellHeight}); 
+        //  Draw Walls
+        sf::RectangleShape vWall({wallEpaisseur, cellHeight}); // Vertical Wall
         vWall.setFillColor(sf::Color::Black);
         
-        sf::RectangleShape hWall({cellWidth, wallEpaisseur}); 
+        sf::RectangleShape hWall({cellWidth, wallEpaisseur}); // Horizontal Wall
         hWall.setFillColor(sf::Color::Black);
 
         for (std::size_t r = 0; r < nbrow; ++r) {
@@ -70,18 +71,23 @@ void display(const Maze& maze) {
                 const Cell &cell = maze(r, c);
 
                 // --- LEFT WALL ---
+                // Draw if it is a wall char AND it's not the entrance at 0,0
                 if (cell.left == '|') {
                     if (!(r == 0 && c == 0)) { 
                         vWall.setPosition({x, y});
                         window.draw(vWall);
                     }
                 } 
+                // Always draw left boundary if not column 0 (handled by cell.left usually) 
+                // but strictly: boundary is column 0.
                 else if (c == 0 && !(r == 0 && c == 0)) {
                      vWall.setPosition({x, y});
                      window.draw(vWall);
                 }
 
+
                 // --- TOP WALL ---
+                // Draw top boundary for first row
                 if (r == 0) {
                      hWall.setPosition({x, y});
                      window.draw(hWall);
@@ -89,6 +95,7 @@ void display(const Maze& maze) {
 
                 // --- BOTTOM WALL ---
                 if (cell.bot == '_') {
+                    // Don't draw bottom wall for Exit
                     if (!(r == nbrow - 1 && c == nbcol - 1)) {
                         hWall.setPosition({x, y + cellHeight - wallEpaisseur});
                         window.draw(hWall);
@@ -96,6 +103,7 @@ void display(const Maze& maze) {
                 }
 
                 // --- RIGHT WALL ---
+                // Draw right boundary for last column
                 if (c == nbcol - 1) {
                     vWall.setPosition({x + cellWidth - wallEpaisseur, y});
                     window.draw(vWall);
@@ -105,20 +113,5 @@ void display(const Maze& maze) {
 
         window.display();
     }
-}
-
-
-int main() {
-    std::size_t nbrow, nbcol;
-    std::cout << "Enter number of rows: ";
-    std::cin >> nbrow;
-    std::cout << "Enter number of columns: ";
-    std::cin >> nbcol;
-
-    Maze maze(nbrow, nbcol);
-    maze.generate();
-
-    display(maze);
-
     return 0;
 }

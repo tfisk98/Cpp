@@ -14,6 +14,7 @@ void display(const Maze& maze) {
     //float cellWidth = 1.0f;
     //float cellHeight = 1.0f;
 
+
     sf::RenderWindow window(sf::VideoMode({windowWidth, windowHeight}), "Maze Game");
 
     const float marge = 40.0f;
@@ -23,6 +24,9 @@ void display(const Maze& maze) {
 
     std::size_t playerR = 0;
     std::size_t playerC = 0;
+
+    std::size_t enemyR = 0;
+    std::size_t enemyC = 0;
 
     // --- Solution path ---
     bool showSolution = false;
@@ -164,6 +168,17 @@ void display(const Maze& maze) {
                             marge + playerR * cellHeight + cellHeight / 2.0f});
         player.setFillColor(sf::Color::Blue);
         window.draw(player);
+
+
+        // --- Draw Enemy ---
+        float radius_ = std::min(cellWidth, cellHeight) * 0.3f;
+        sf::CircleShape enemy(radius_);
+        enemy.setOrigin({radius_, radius_});
+        enemy.setPosition({marge + 2*enemyC * cellWidth + cellWidth / 2.0f,
+                            marge + 2*enemyR * cellHeight + cellHeight / 2.0f});
+        enemy.setFillColor(sf::Color::Red);
+        window.draw(enemy);
+
 
         window.display();
     }
